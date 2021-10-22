@@ -1,3 +1,6 @@
+# rooms.py
+# This is a list of dictionaries that have the details of every room.
+# This file is imported by commands.py, which is in turn imported by main.py (which is the main game)
 rooms = [
     {
         "id": 0,
