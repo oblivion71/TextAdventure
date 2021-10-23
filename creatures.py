@@ -2,7 +2,10 @@ player = {
     "name": "Player",
     "hp": 100,
     "maxhp": 100,
-    "atk": 10
+    "atk": 10,
+    "inv": [],
+    "invspace": 8,
+    "equipped": None
 }
 
 gerald = {

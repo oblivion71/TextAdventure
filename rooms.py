@@ -3,6 +3,7 @@
 # This file is imported by commands.py, which is in turn imported by main.py (which is the main game)
 
 import creatures
+import items
 
 rooms = []
 
@@ -14,7 +15,8 @@ def set_rooms():
         "name": "Living Room",
         "desc": "A nice and cozy place to be in!",
         "path": { "north": 1, "west": 2, "south": 3, "east": 4, "up": 6 },
-        "hiddenpath": {"down" : 5}
+        "hiddenpath": {"down" : 5},
+        "items": [items.stick.copy()]
     },
     {
         "id": 1,

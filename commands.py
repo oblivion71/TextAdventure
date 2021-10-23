@@ -13,19 +13,23 @@ from constants import divider
 
 def look(words):
     # Prints info about the room. This command can be extended to refer to items too. 
-      currentRoom = gamestate.get_current_room()
-      print("INFO (LOCATION)")
-      print("Name: " + currentRoom["name"])
-      print("Description: " + currentRoom["desc"])
-      print("Path: ")
-      for direction, room_id in currentRoom["path"].items():
-          # THIS MAY BE A POSSIBLE ERROR
-          print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
-      if "enemies" in gamestate.get_current_room():
-          print("Enemies: ")
-          for enemy in gamestate.get_current_room()["enemies"]:
-              print("-" + enemy["name"] + " | HP:" + "(" + str(enemy["hp"]) + "/" + str(enemy["maxhp"]) + ")" + " ATK:" + str(enemy["atk"]))
-      return
+    currentRoom = gamestate.get_current_room()
+    print("INFO (LOCATION)")
+    print("Name: " + currentRoom["name"])
+    print("Description: " + currentRoom["desc"])
+    print("Path: ")
+    for direction, room_id in currentRoom["path"].items():
+        # THIS MAY BE A POSSIBLE ERROR
+        print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
+    if "enemies" in gamestate.get_current_room():
+        print("Enemies: ")
+        for enemy in gamestate.get_current_room()["enemies"]:
+            print("-" + enemy["name"] + " | HP:" + "(" + str(enemy["hp"]) + "/" + str(enemy["maxhp"]) + ")" + " ATK:" + str(enemy["atk"]))
+    if "items" in gamestate.get_current_room():
+        print("Items: ")
+        for item in gamestate.get_current_room()["items"]:
+            print("-" + item["name"])
+    return
 
 def info(words):
     # for 'info location', prints the name, description, and paths. Note that this does NOT display hidden paths.
@@ -37,6 +41,17 @@ def info(words):
         print("Name: " + gamestate.player["name"])
         print("HP: " + "(" + str(gamestate.player["hp"]) + "/" + str(gamestate.player["maxhp"]) + ")")
         print("ATK: " + str(gamestate.player["atk"]))
+        if (not gamestate.player["equipped"] is None):
+            print("Equiped: " + gamestate.player["equipped"]["name"])
+        else:
+            print("Equiped: None")
+        print("Inventory Space: " + str(gamestate.player["invspace"]))
+        print("Inventory (" + str(len(gamestate.player["inv"])) + "/" + str(gamestate.player["invspace"]) + "):")
+        if len(gamestate.player["inv"]) == 0:
+            print("*Empty! You poor person!*")
+        else:
+            for item in gamestate.player["inv"]:
+                print("-" + item["name"])
         return
 
     return print("ERROR: target entity does not exist!")
@@ -78,19 +93,6 @@ def move(words):
     
     return print("ERROR: Direction does not exist!")
 
-def look(words):
-    # Prints info about the room. This command can be extended to refer to items too. 
-    if len(words) >= 1:
-        currentRoom = rooms.rooms[gamestate.current_room_id]
-
-        print("LOCATION:")
-        print("Name: " + currentRoom["name"])
-        print("Description: " + currentRoom["desc"])
-        print("Path: ")
-        for direction, room_id in currentRoom["path"].items():
-            print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
-        return
-
 # clears all text; may not work on all platforms
 def clear(words):
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -129,7 +131,10 @@ def attack(words):
 
     for enemy in gamestate.get_current_room()["enemies"]:
         if words[1] == enemy["name"].lower():
-            print("Player deals: " + str(gamestate.player["atk"]) + " to " + enemy["name"] + "!")
+            damamge = gamestate.player["atk"]
+            if (not gamestate.player["equipped"] is None):
+                damamge += gamestate.player["equipped"]["atk"]
+            print("Player deals: " + str(damamge) + " to " + enemy["name"] + "!")
             enemy["hp"] -= gamestate.player["atk"]
             if enemy["hp"] <= 0:
                 gamestate.get_current_room()["enemies"].remove(enemy)
@@ -148,17 +153,54 @@ def rest(words):
     else:
         return print("ERROR: You can't rest you lazy bum!")
 
+def pickup(words):
+    if len(words) == 1:
+        return print("ERROR: No item targeted!")
+    if not "items" in gamestate.get_current_room():
+        return print("ERROR: No items to pick up!")
     
+    for item in gamestate.get_current_room()["items"]:
+        if words[1] == item["name"].lower():
+            if len(gamestate.player["inv"]) == gamestate.player["invspace"]:
+                return print("ERROR: Not enough inventory space!")
+            else:
+                gamestate.player["inv"].append(item)
+                gamestate.get_current_room()["items"].remove(item)
+                print("Player picks up: " + item["name"])
+
+    if (len(gamestate.get_current_room()["items"]) == 0):
+        del gamestate.get_current_room()["items"]
+        print(divider)
+        print("Player picked up all the items in the area!")
+
+def equip(words):
+    if len(words) == 1:
+        return print("ERROR: No item targeted!")
+    if len(gamestate.player["inv"]) == 0:
+        return print("ERROR: No item to equip! Inventory is full!")
+
+    for item in gamestate.player["inv"]:
+        if words[1] == item["name"].lower():
+            if not "equipable" in item:
+                return print("ERROR: This item is not equipable!")
+            else:
+                gamestate.player["equipped"] = item
+                return print("Player equiped: " + item["name"])
+
+
 
 # list of every command; this is how integration with main.py occurs.
 command_list = {
     "info": info,
     "move": move,
     "clear": clear,
+    "cls": clear,
     "quit": exit,
     "exit": exit,
     "say": say,
     "look": look,
     "attack": attack,
-    "rest": rest
+    "rest": rest,
+    "pickup": pickup,
+    "equip": equip
 }
