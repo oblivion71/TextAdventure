@@ -1,7 +1,14 @@
 # rooms.py
 # This is a list of dictionaries that have the details of every room.
 # This file is imported by commands.py, which is in turn imported by main.py (which is the main game)
-rooms = [
+
+import creatures
+
+rooms = []
+
+def set_rooms():
+    global rooms
+    rooms = [
     {
         "id": 0,
         "name": "Living Room",
@@ -38,7 +45,8 @@ rooms = [
         "id": 5,
         "name": "Gerald's Basement",
         "desc": "Torture devices lying on the ground. The smell of children is strong!",
-        "path": { "up": 0 }
+        "path": { "up": 0 },
+        "enemies": [ creatures.gerald.copy() ]
     },
     {
         "id": 6,
@@ -53,3 +61,5 @@ rooms = [
         "path": { "west": 4 }
     }
 ]
+
+
