@@ -1,0 +1,19 @@
+fists = {
+    "name": "Fists",
+    "atk": 1
+}
+
+stick = {
+    "name": "Stick",
+    "atk": 1
+}
+
+wooden_sword = {
+    "name": "Wooden_sword",
+    "atk": 1
+}
+
+bow = {
+    "name": "Bow",
+    "atk": 1
+}
