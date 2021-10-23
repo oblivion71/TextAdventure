@@ -5,15 +5,15 @@ fists = {
 
 stick = {
     "name": "Stick",
-    "atk": 1
+    "atk": 3
 }
 
 wooden_sword = {
     "name": "Wooden_sword",
-    "atk": 1
+    "atk": 5
 }
 
 bow = {
     "name": "Bow",
-    "atk": 1
+    "atk": 7
 }
