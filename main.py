@@ -14,7 +14,7 @@ print("""  ▄████ ▓█████  ██▀███   ▄▄▄   
  ░▒   ▒ ░░ ▒░ ░░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░▓  ░ ▒▒▓  ▒ ▒ ▒▓▒ ▒ ░    ▒ ░   ░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░  ▒ ░░   ░░ ▒░ ░░ ▒▓ ░▒▓░    ▒ ░░▒░▒░ ▒░▒░▒░ ░ ▒░   ░  ░░░ ▒░ ░
   ░   ░  ░ ░  ░  ░▒ ░ ▒░  ▒   ▒▒ ░░ ░ ▒  ░ ░ ▒  ▒ ░ ░▒  ░ ░    ░       ░ ▒ ▒░ ░ ░▒  ░ ░    ░     ░ ░  ░  ░▒ ░ ▒░    ▒ ░▒░ ░  ░ ▒ ▒░ ░  ░      ░ ░ ░  ░
 ░ ░   ░    ░     ░░   ░   ░   ▒     ░ ░    ░ ░  ░ ░  ░  ░      ░ ░   ░ ░ ░ ▒  ░  ░  ░    ░         ░     ░░   ░     ░  ░░ ░░ ░ ░ ▒  ░      ░      ░   
-      ░    ░  ░   ░           ░  ░    ░  ░   ░          ░                ░ ░        ░              ░  ░   ░         ░  ░  ░    ░ ░         ░      ░  ░"""
+      ░    ░  ░   ░           ░  ░    ░  ░   ░          ░                ░ ░        ░              ░  ░   ░         ░  ░  ░    ░ ░         ░      ░  ░""")
 
 def start_game():
     gamestate.game_over = False
@@ -22,12 +22,14 @@ def start_game():
     gamestate.current_action = "exploring"
     gamestate.current_room_id = 0
     rooms.set_rooms()
-    commands.command_list["look"](["look"])
     game_loop()
 
 def game_loop():
     # This While Loop constantly loops until the game is marked as over (through player choice or deaths in game).
     # This takes the commands from the player, which are elaborated in in commands.py
+    commands.command_list["look"](["look"])
+    print(divider)
+    
     while gamestate.game_over == False:
         command = input("type command: ")
         print(divider)
