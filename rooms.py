@@ -27,7 +27,8 @@ def set_rooms():
         "id": 2,
         "name": "Bedroom",
         "desc": "Smells like you!",
-        "path": { "east": 0 }
+        "path": { "east": 0 },
+        "rest": True
     },
     {
         "id": 3,

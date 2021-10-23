@@ -62,6 +62,8 @@ def move(words):
             gamestate.current_room_id = room_id
 
             print("Player moved to " + rooms.rooms[room_id]["name"] + "!")
+            print(divider)
+            look(words)
 
             if "enemies" in gamestate.get_current_room():
                 print(divider)
@@ -139,6 +141,13 @@ def attack(words):
         print(divider)
         print("You cleared all the enemies!")
 
+def rest(words):
+    if "rest" in gamestate.get_current_room():
+        gamestate.player["hp"] = gamestate.player["maxhp"]
+        return print("Player rests and heals wounds")
+    else:
+        return print("ERROR: You can't rest you lazy bum!")
+
     
 
 # list of every command; this is how integration with main.py occurs.
@@ -150,5 +159,6 @@ command_list = {
     "exit": exit,
     "say": say,
     "look": look,
-    "attack": attack
+    "attack": attack,
+    "rest": rest
 }
