@@ -10,13 +10,9 @@ import rooms
 # Since 'words' involves a list such as ['move','north'], with the name of the command intact, most commands deal with the argument words[1] or words[2]
 
 def info(words):
-    # If there is no argument for the command
-    if len(words) == 1:
-        return print("ERROR: No entity targeted!")
-
     # for 'info location', prints the name, description, and paths. Note that this does NOT display hidden paths.
-    if words[1] == "location":
-        look(words)
+    if len(words) == 1 or words[1] == 'location':
+        return look(words)
 
     return print("ERROR: target entity does not exist!")
 
