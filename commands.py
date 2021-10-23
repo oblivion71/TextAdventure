@@ -49,7 +49,7 @@ def move(words):
             gamestate.current_room_id = room_id
             return print("Player moved to " + rooms.rooms[room_id]["name"] + "!")
     
-    print("ERROR: Direction does not exist!")
+    return print("ERROR: Direction does not exist!")
 
 # clears all text; may not work on all platforms
 def clear(words):
@@ -59,10 +59,33 @@ def clear(words):
 def exit(words):
     sys.exit()
 
+# You can say stuff now. Good luck figuring out what you can actually say.
+def say(words):
+    # if there is no argument
+    if len(words) == 1:
+        # TO-DO: Add "silence descriptors" to rooms.py, replacing 'faint creaking'.
+        return print("You open your mouth, but silence fills the air. Only a faint creaking is audible.")
+
+    if len(words) > 2:
+        return print("You tried to say so much stuff, b")
+
+    if words[1] in sayable_words:
+        # prints whatever the dictionarys says to
+        return print(sayable_words[words[1]])
+    
+    return print("You tried to speak, but the stuff you said was so stupid that the sound of the monsters banging their heads against the wall in agony drowned it out.")
+
+sayable_words = {
+    "gerald": "A faint groan emanates from within the walls, and the already dank atmosphere thickens.",
+    "yo": "A mannequin wheels on by on a toy bicycle. She looks at you with a grin, and with three flicks of her wrist hits you squarely in the face, briefly stunning you. By the time you look back the room is empty again.",
+}
+
 # list of every command; this is how integration with main.py occurs.
 command_list = {
     "info": info,
     "move": move,
     "clear": clear,
-    "quit": exit
+    "quit": exit,
+    "exit": exit,
+    "say": say,
 }
