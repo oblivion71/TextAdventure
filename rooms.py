@@ -63,7 +63,7 @@ def set_rooms():
         "name": "Pantry",
         "desc": "All the food you could ever want! But it's vegan.",
         "path": { "west": 4 }
-    }
+    },
     {
         "id": 8,
         "name": "Attic Corner",
