@@ -11,9 +11,25 @@ from constants import divider
 # This system defines a bunch of commands, which are integrated with main.py with the command_list at the bottom.
 # Since 'words' involves a list such as ['move','north'], with the name of the command intact, most commands deal with the argument words[1] or words[2]
 
+def look(words):
+    # Prints info about the room. This command can be extended to refer to items too. 
+      currentRoom = gamestate.get_current_room()
+      print("INFO (LOCATION)")
+      print("Name: " + currentRoom["name"])
+      print("Description: " + currentRoom["desc"])
+      print("Path: ")
+      for direction, room_id in currentRoom["path"].items():
+          # THIS MAY BE A POSSIBLE ERROR
+          print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
+      if "enemies" in gamestate.get_current_room():
+          print("Enemies: ")
+          for enemy in gamestate.get_current_room()["enemies"]:
+              print("-" + enemy["name"] + " | HP:" + "(" + str(enemy["hp"]) + "/" + str(enemy["maxhp"]) + ")" + " ATK:" + str(enemy["atk"]))
+      return
+
 def info(words):
     # for 'info location', prints the name, description, and paths. Note that this does NOT display hidden paths.
-    words[1] == 'location':
+    if words[1] == "location": 
         return look(words)
     
     if words[1] == "player":
@@ -59,22 +75,6 @@ def move(words):
             return 
     
     return print("ERROR: Direction does not exist!")
-
-def look(words):
-    # Prints info about the room. This command can be extended to refer to items too. 
-      currentRoom = gamestate.get_current_room()
-      print("INFO (LOCATION)")
-      print("Name: " + currentRoom["name"])
-      print("Description: " + currentRoom["desc"])
-      print("Path: ")
-      for direction, room_id in currentRoom["path"].items():
-          # THIS MAY BE A POSSIBLE ERROR
-          print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
-      if "enemies" in gamestate.get_current_room():
-          print("Enemies: ")
-          for enemy in gamestate.get_current_room()["enemies"]:
-              print("-" + enemy["name"] + " | HP:" + "(" + str(enemy["hp"]) + "/" + str(enemy["maxhp"]) + ")" + " ATK:" + str(enemy["atk"]))
-      return
 
 # clears all text; may not work on all platforms
 def clear(words):
@@ -136,6 +136,6 @@ command_list = {
     "quit": exit,
     "exit": exit,
     "say": say,
-    "look": info,
+    "look": look,
     "attack": attack
 }
