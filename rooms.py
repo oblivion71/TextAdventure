@@ -32,12 +32,24 @@ rooms = [
         "id": 4,
         "name": "Kitchen",
         "desc": "Smells like burnt children!",
-        "path": { "west": 0 }
+        "path": { "west": 0, "east": 7 }
     },
     {
         "id": 5,
         "name": "Gerald's Basement",
         "desc": "Torture devices lying on the ground. The smell of children is strong!",
         "path": { "up": 0 }
-    }
+    },
+       "id": 6,
+        "name": "Haunted Attic",
+        "desc": "You hear ghostly moans during the dead of night. Gerald or Ghosts?",
+        "path": { "up": 2, "north":1 }
+        "path": { "down": 0 }
+    },
+    {
+        "id": 7,
+        "name": "Pantry",
+        "desc": "All the food you could ever want! But it's vegan.",
+        "path": { "north": 1 }
+        "path": { "west": 4 }
 ]
