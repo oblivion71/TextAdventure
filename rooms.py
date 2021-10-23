@@ -6,7 +6,7 @@ rooms = [
         "id": 0,
         "name": "Living Room",
         "desc": "A nice and cozy place to be in!",
-        "path": { "north": 1, "west": 2, "south": 3, "east": 4 },
+        "path": { "north": 1, "west": 2, "south": 3, "east": 4, "up": 6 },
         "hiddenpath": {"down" : 5}
     },
     {
@@ -42,14 +42,12 @@ rooms = [
     },
        "id": 6,
         "name": "Haunted Attic",
-        "desc": "You hear ghostly moans during the dead of night. Gerald or Ghosts?",
-        "path": { "up": 2, "north":1 }
+        "desc": "You hear ghostly moans during the dead of night. Gerald or Ghosts?"
         "path": { "down": 0 }
     },
     {
         "id": 7,
         "name": "Pantry",
         "desc": "All the food you could ever want! But it's vegan.",
-        "path": { "north": 1 }
         "path": { "west": 4 }
 ]
