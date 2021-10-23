@@ -16,15 +16,7 @@ def info(words):
 
     # for 'info location', prints the name, description, and paths. Note that this does NOT display hidden paths.
     if words[1] == "location":
-        currentRoom = rooms.rooms[gamestate.current_room_id]
-
-        print("INFO (LOCATION)")
-        print("Name: " + currentRoom["name"])
-        print("Description: " + currentRoom["desc"])
-        print("Path: ")
-        for direction, room_id in currentRoom["path"].items():
-            # THIS MAY BE A POSSIBLE ERROR
-            print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
+        look(words)
 
     return print("ERROR: target entity does not exist!")
 
@@ -50,6 +42,19 @@ def move(words):
             return print("Player moved to " + rooms.rooms[room_id]["name"] + "!")
     
     return print("ERROR: Direction does not exist!")
+
+def look(words):
+    # Prints info about the room. This command can be extended to refer to items too. 
+    if len(words) >= 1:
+        currentRoom = rooms.rooms[gamestate.current_room_id]
+
+        print("INFO (LOCATION)")
+        print("Name: " + currentRoom["name"])
+        print("Description: " + currentRoom["desc"])
+        print("Path: ")
+        for direction, room_id in currentRoom["path"].items():
+            print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
+        return
 
 # clears all text; may not work on all platforms
 def clear(words):
@@ -88,4 +93,5 @@ command_list = {
     "quit": exit,
     "exit": exit,
     "say": say,
+    "look": info,
 }
