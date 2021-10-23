@@ -55,7 +55,8 @@ def set_rooms():
         "id": 6,
         "name": "Haunted Attic",
         "desc": "You hear ghostly moans during the dead of night. Gerald or Ghosts?",
-        "path": { "down": 0 }
+        "path": { "down": 0, "north": 8 },
+        "enemies": [creatures.bishop.copy() ]
     },
     {
         "id": 7,
@@ -63,6 +64,13 @@ def set_rooms():
         "desc": "All the food you could ever want! But it's vegan.",
         "path": { "west": 4 }
     }
+    {
+        "id": 8,
+        "name": "Attic Corner",
+        "desc": "A small chest within the corner of the Attic",
+        "path": { "south": 6 },
+        "items": [items.bow.copy()]
+    },
 ]
 
 
