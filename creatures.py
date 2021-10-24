@@ -1,3 +1,5 @@
+import items
+
 player = {
     "name": "Player",
     "hp": 100,
@@ -26,7 +28,7 @@ altar_boy = {
 
 nun = {
     "name": "Nun",
-    "desc": "DESCRIPTION NEEDED!",
+    "desc": "What could they be guarding?",
     "hp": 20,
     "maxhp": 20,
     "atk": 4
@@ -46,6 +48,15 @@ cardinal = {
     "hp": 40,
     "maxhp": 40,
     "atk": 8
+}
+
+nelson_lee = {
+    "name": "Nelson_Lee",
+    "desc": "How are you dying? It's just so easy!",
+    "hp": 150,
+    "maxhp": 150,
+    "atk": 10,
+    "drops": [items.smart_pill.copy()]
 }
 
     

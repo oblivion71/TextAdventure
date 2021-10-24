@@ -20,8 +20,13 @@ bow = {
 }
 
 debroglie_wavelength = {
-    "name": "debroglie_wavelength",
+    "name": "Debroglie_Wavelength",
     "desc": "The Debroglie Wavelength",
     "atk": 10,
     "equipable": True
+}
+
+smart_pill = {
+    "name": "Smart_Pill",
+    "desc": "Greatly increases your intelligence!"
 }

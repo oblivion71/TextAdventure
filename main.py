@@ -45,12 +45,18 @@ def game_loop():
         if (gamestate.current_action == "fighting"):
             print(divider)
             for enemy in gamestate.get_current_room()["enemies"]:
-                print("Enemy " + enemy["name"] + " deals: " + str(enemy["atk"]) + " HP!")
+                oldhp = gamestate.player["hp"]
                 gamestate.player["hp"] -= enemy["atk"]
+                
                 if gamestate.player["hp"] <= 0:
+                    print("Enemy " + enemy["name"] + " deals: " + str(enemy["atk"]) + " HP! (" +  str(oldhp) + "/" + str(gamestate.player["maxhp"]) + " --> 0/" + str(gamestate.player["maxhp"]) + ")")
+                    print(divider)
                     print("Game Over! Player sucked and died!")
                     gamestate.game_over = True
                     break
+                else:
+                    print("Enemy " + enemy["name"] + " deals: " + str(enemy["atk"]) + " HP! (" +  str(oldhp) + "/" + str(gamestate.player["maxhp"]) + " --> " + str(gamestate.player["hp"]) + "/" + str(gamestate.player["maxhp"]) + ")")
+
 
         print(divider)
 

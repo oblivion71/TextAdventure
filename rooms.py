@@ -5,6 +5,10 @@
 import creatures
 import items
 
+def rename_creature(dict, name):
+    dict.update({"name": name})
+    return dict
+
 rooms = []
 
 def set_rooms():
@@ -47,8 +51,9 @@ def set_rooms():
     {
         "id": 5,
         "name": "Gerald's Basement",
-        "desc": "Torture devices lying on the ground. The smell of children is strong!",
+        "desc": "Torture devices lying on the ground. The smell of children is strong! There is a bookshelf to the west!",
         "path": { "up": 0 },
+        "hiddenpath": { "west": 9 },
         "enemies": [ creatures.gerald.copy() ]
     },
     {
@@ -71,6 +76,37 @@ def set_rooms():
         "path": { "south": 6 },
         "items": [items.bow.copy()]
     },
+    {
+        "id": 9,
+        "name": "Secret Staircase",
+        "desc": "Behind a bookshelf. Where do these stairs lead to?",        
+        "path": { "east": 5, "down": 10 },
+        "enemies": [rename_creature(creatures.nun.copy(), "Nun1"), rename_creature(creatures.nun.copy(), "Nun2")]
+    },
+    {
+        "id": 10,
+        "name": "Midway Down Staircase",
+        "desc": "You're half way down! What lurks beneath this house?",
+        "path": { "up": 9, "down": 11 },
+        "enemies": [rename_creature(creatures.cardinal.copy(), "Cardinal1"), rename_creature(creatures.cardinal.copy(), "Cardinal2")]
+    },
+    {
+        "id": 11,
+        "name": "Cultroom",
+        "desc": "Holy smokes WTF is this? To the north there is an altar... What's behind it?",
+        "path": { "up": 10 },
+        "hiddenpath": { "north": 12 },
+        "enemies": [creatures.nelson_lee.copy()]
+    },
+    {
+        "id": 12,
+        "name": "Behind Altar",
+        "desc": "Behold! The holy weapon! Just make sure you spell it correctly!",
+        "path": { "south": 11 },
+        "enemies": [creatures.altar_boy.copy()],
+        "items": [items.debroglie_wavelength.copy()]
+
+    }
 ]
 
 

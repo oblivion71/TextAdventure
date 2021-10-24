@@ -184,22 +184,26 @@ def attack(words):
     for enemy in gamestate.get_current_room()["enemies"]:
         # if argument matches an enemy
         if words[1] == enemy["name"].lower():
-            damamge = gamestate.player["atk"]
+            damage = gamestate.player["atk"]
             if (not gamestate.player["equipped"] is None):
-                damamge += gamestate.player["equipped"]["atk"]
-            print("Player deals: " + str(damamge) + " to " + enemy["name"] + "!")
-            enemy["hp"] -= gamestate.player["atk"]
+                damage += gamestate.player["equipped"]["atk"]
+            oldhp = enemy["hp"]
+            enemy["hp"] -= damage
             if enemy["hp"] <= 0:
+                print("Player deals: " + str(damage) + " HP to " + enemy["name"] + "! (" +  str(oldhp) + "/" + str(enemy["maxhp"]) + " --> 0/" + str(enemy["maxhp"]) + ")")
                 gamestate.get_current_room()["enemies"].remove(enemy)
                 print(divider)
-                print(enemy["name"] + " dies!")
-            break
-    
-    if (len(gamestate.get_current_room()["enemies"]) == 0):
-        del gamestate.get_current_room()["enemies"]
-        gamestate.current_action = "exploring"
-        print(divider)
-        print("You cleared all the enemies!")
+                print(enemy["name"] + " dies!") 
+                if (len(gamestate.get_current_room()["enemies"]) == 0):
+                    del gamestate.get_current_room()["enemies"]
+                    gamestate.current_action = "exploring"
+                    print(divider)
+                    print("You cleared all the enemies!")  
+                return     
+            else:
+                return print("Player deals: " + str(damage) + " HP to " + enemy["name"] + "! (" +  str(oldhp) + "/" + str(enemy["maxhp"]) + " --> " + str(enemy["hp"]) + "/" + str(enemy["maxhp"]) + ")")
+
+    return print("You are going insane! You just tried to swing at something that does not exist!")
 
 def rest(words):
     if "rest" in gamestate.get_current_room():
@@ -244,20 +248,32 @@ def equip(words):
                 gamestate.player["equipped"] = item
                 return print("Player equiped: " + item["name"])
 
-
-
+def drop(words):
+    if len(gamestate.player["inv"]) == 0:
+        return print("You're too poor to drop anything!")
+    if len(words) == 1:
+        return print("Where we dropping?")
+    for item in gamestate.player["inv"]:
+        if words[1] == item["name"].lower():
+            if gamestate.player["equipped"] == item:
+                gamestate.player["equipped"] = None
+            gamestate.player["inv"].remove(item)
+            if not "items" in gamestate.get_current_room():
+                gamestate.get_current_room()["items"] = [item]
+            else:
+                gamestate.get_current_room()["items"].append(item)
+            return print("Playe dropped: " + item["name"])
+    return print("You can't drop what you dont have!")    
 # list of every command; this is how integration with main.py occurs.
 command_list = {
-    "info": info,
+    "info": info, "look": look,
     "move": move,
-    "clear": clear,
-    "cls": clear,
-    "quit": exit,
-    "exit": exit,
+    "clear": clear, "cls": clear,
+    "quit": exit, "exit": exit,
     "say": say,
-    "look": look,
     "attack": attack,
     "rest": rest,
     "pickup": pickup,
-    "equip": equip
+    "equip": equip,
+    "drop": drop
 }
