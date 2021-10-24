@@ -59,5 +59,13 @@ nelson_lee = {
     "drops": [items.smart_pill.copy()]
 }
 
+troll_enemy = {
+    "name": "qjijhsklgfshgfjlksdqwiryuiowfsilhfjshjakghjsgfksfghskjhfsjhcxkjhfgsfyaiofuaoishjfjkshfdsjkgfquiwui",
+    "desc": "I have a really long name",
+    "hp": 1,
+    "maxhp": 1,
+    "atk": 1
+}
+
     
  
