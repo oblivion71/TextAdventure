@@ -10,6 +10,7 @@ player = {
 
 gerald = {
     "name": "Gerald",
+    "desc": "A holy man that will remove your sins",
     "hp": 50,
     "maxhp": 50,
     "atk": 10
@@ -17,6 +18,7 @@ gerald = {
 
 altar_boy = {
     "name": "Altar_Boy",
+    "desc": "DESCRIPTION NEEDED!",
     "hp": 10,
     "maxhp": 10,
     "atk": 2
@@ -24,6 +26,7 @@ altar_boy = {
 
 nun = {
     "name": "Nun",
+    "desc": "DESCRIPTION NEEDED!",
     "hp": 20,
     "maxhp": 20,
     "atk": 4
@@ -31,6 +34,7 @@ nun = {
 
 bishop = {
     "name": "Bishop",
+    "desc": "DESCRIPTION NEEDED!",
     "hp": 30,
     "maxhp": 30,
     "atk": 6
@@ -38,6 +42,7 @@ bishop = {
 
 cardinal = {
     "name": "Cardinal",
+    "desc": "DESCRIPTION NEEDED!",
     "hp": 40,
     "maxhp": 40,
     "atk": 8

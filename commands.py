@@ -33,6 +33,13 @@ def look(words):
             print("-" + item["name"])
     return
 
+def print_item_info(index, item):
+    print(item["name"] + " (" + str(index) + "/" + str(gamestate.player["invspace"]) + "): ")
+    print("-Description: " + str(item["desc"]))
+    if "equipable" in item:
+        print("-Equipable: True")
+        print("-Attack: " + str(item["atk"]))
+
 def info(words):
     # for 'info location', prints the name, description, and paths. Note that this does NOT display hidden paths.
     if words[1] == "location": 
@@ -59,7 +66,37 @@ def info(words):
             for item in gamestate.player["inv"]:
                 print("-" + item["name"])
         return
+    
+    if words[1] == "enemies":
+        print("INFO (ENEMIES)")
+        for enemy in gamestate.get_current_room()["enemies"]:
+            print(enemy["name"] + ":")
+            print("-Description: " + str(enemy["desc"]))
+            print("-Health: " + str(enemy["hp"]) + "/" + str(enemy["maxhp"]))
+            print("-Attack: " + str(enemy["atk"]))
+        return
 
+    if words[1] == "inventory":   
+        if len(gamestate.player["inv"]) == 0:
+            return print("Your inventory is empty! You poor person!")
+        if len(words) == 2:
+            print("INFO (INVENTORY)")
+            for index, item in enumerate(gamestate.player["inv"]):
+                print_item_info(index, item)
+            return
+        if len(words) == 3:
+            for index, item in enumerate(gamestate.player["inv"]):
+                if (words[2] == item["name"].lower()):
+                    print("INFO (INVENTORY)")
+                    return print_item_info(index, item)
+            return print("No item with that name in your inventory!")
+    
+    if words[1] == "equipped":
+        if gamestate.player["equipped"] == None:
+            return print("You do not have an item equipped!")
+        index = gamestate.player["inv"].index(gamestate.player["equipped"])
+        return print_item_info(index, gamestate.player["equipped"])
+            
     #ERROR
     return print("You looked around, but couldn't see what you were looking for.")
 
@@ -154,6 +191,8 @@ def attack(words):
             enemy["hp"] -= gamestate.player["atk"]
             if enemy["hp"] <= 0:
                 gamestate.get_current_room()["enemies"].remove(enemy)
+                print(divider)
+                print(enemy["name"] + " dies!")
             break
     
     if (len(gamestate.get_current_room()["enemies"]) == 0):
@@ -183,11 +222,13 @@ def pickup(words):
                 gamestate.player["inv"].append(item)
                 gamestate.get_current_room()["items"].remove(item)
                 print("Player picks up: " + item["name"])
+                if (len(gamestate.get_current_room()["items"]) == 0):
+                    del gamestate.get_current_room()["items"]
+                    print(divider)
+                    print("Player picked up all the items in the area!")
+                return
 
-    if (len(gamestate.get_current_room()["items"]) == 0):
-        del gamestate.get_current_room()["items"]
-        print(divider)
-        print("Player picked up all the items in the area!")
+    return print("No item with that name to pickup!")
 
 def equip(words):
     if len(words) == 1:
