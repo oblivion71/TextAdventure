@@ -18,13 +18,15 @@ def look(words):
     print("Name: " + currentRoom["name"])
     print("Description: " + currentRoom["desc"])
     print("Path: ")
+    # lists every single possible (non-hidden) path
     for direction, room_id in currentRoom["path"].items():
-        # THIS MAY BE A POSSIBLE ERROR
         print("-" + direction.capitalize() + ": " + rooms.rooms[room_id]["name"])
+    # lists all enemies, if there are any.
     if "enemies" in gamestate.get_current_room():
         print("Enemies: ")
         for enemy in gamestate.get_current_room()["enemies"]:
             print("-" + enemy["name"] + " | HP:" + "(" + str(enemy["hp"]) + "/" + str(enemy["maxhp"]) + ")" + " ATK:" + str(enemy["atk"]))
+    # lists any present items, if there are any.
     if "items" in gamestate.get_current_room():
         print("Items: ")
         for item in gamestate.get_current_room()["items"]:
@@ -36,25 +38,30 @@ def info(words):
     if words[1] == "location": 
         return look(words)
     
+    # shows information about the player (HP, inventory, attack power, etc.), when 'info player' is typed.
     if words[1] == "player":
         print("INFO (PLAYER)")
         print("Name: " + gamestate.player["name"])
         print("HP: " + "(" + str(gamestate.player["hp"]) + "/" + str(gamestate.player["maxhp"]) + ")")
         print("ATK: " + str(gamestate.player["atk"]))
+        # shows your equipped weapon
         if (not gamestate.player["equipped"] is None):
-            print("Equiped: " + gamestate.player["equipped"]["name"])
+            print("Equipped: " + gamestate.player["equipped"]["name"])
         else:
-            print("Equiped: None")
-        print("Inventory Space: " + str(gamestate.player["invspace"]))
-        print("Inventory (" + str(len(gamestate.player["inv"])) + "/" + str(gamestate.player["invspace"]) + "):")
+            print("Equipped: None")
+        # How many spaces of inventory you have used
+        print("Inventory (" + str(len(gamestate.player["inv"])) + "/" + str(gamestate.player["invspace"]) + " slots used):")
+        # lists nothing if there is nothing
         if len(gamestate.player["inv"]) == 0:
             print("*Empty! You poor person!*")
         else:
+            # lists all items
             for item in gamestate.player["inv"]:
                 print("-" + item["name"])
         return
 
-    return print("ERROR: target entity does not exist!")
+    #ERROR
+    return print("You looked around, but couldn't see what you were looking for.")
 
 def move(words):
     # sets currentRoom from gamestate
@@ -62,7 +69,8 @@ def move(words):
     
     # If there is no argument for the command
     if len(words) == 1:
-        return print("ERROR: No direction targeted!")
+        #ERROR
+        return print("You tried to move, but since you couldn't decide which direction to go, you hummed a few bars to yourself and planted yourself exactly where you started.")
 
     # copies the list of all possible paths from the rooms.py dictionary
     all_paths = currentRoom["path"].copy()
@@ -81,17 +89,20 @@ def move(words):
             look(words)
 
             if "enemies" in gamestate.get_current_room():
+                # initiates combat
                 print(divider)
-                print("Enemies spotted! you must either fight or flight!")
+                print("Enemies spotted! You must either fight or flight!")
                 gamestate.current_action = "fighting"
             elif gamestate.current_action == "fighting" and not ("enemies" in gamestate.get_current_room()):
+                # if you change a room when you were meant to be fighting, implies you fled, and resets back to exploring mode.
                 print(divider)
                 print("Player successfully ran away! What a coward!")
                 gamestate.current_action = "exploring"
 
             return 
     
-    return print("ERROR: Direction does not exist!")
+    #ERROR
+    return print("You tried to go that way, but you rammed into something and got a splinter instead.")
 
 # clears all text; may not work on all platforms
 def clear(words):
@@ -109,27 +120,32 @@ def say(words):
         return print("You open your mouth, but silence fills the air. Only a faint creaking is audible.")
 
     if len(words) > 2:
-        return print("You tried to say so much stuff, b")
+        return print("You tried to speak, but you said so much that it came out as a garbled mess. A toilet flushes in the distance.")
 
     if words[1] in sayable_words:
         # prints whatever the dictionarys says to
         return print(sayable_words[words[1]])
     
+    #ERROR
     return print("You tried to speak, but the stuff you said was so stupid that the sound of the monsters banging their heads against the wall in agony drowned it out.")
 
 sayable_words = {
     "gerald": "A faint groan emanates from within the walls, and the already dank atmosphere thickens.",
-    "yo": "A mannequin wheels on by on a toy bicycle. She looks at you with a grin, and with three flicks of her wrist hits you squarely in the face, briefly stunning you. By the time you look back the room is empty again.",
+    "yo": "A mannequin wheels on by on a toy bicycle. She looks at you with a grin, and with three flicks of her wrist hits you squarely in the face with a yo-yo, briefly stunning you. By the time you look back the room is empty again.",
 }
 
 def attack(words):
     if len(words) == 1:
-        return print("ERROR: No entity targeted!")
+        #ERROR
+        return print("You tried to swing at nothing, and ended up making a fool of yourself. Try again.")
 
     if not "enemies" in gamestate.get_current_room():
-        return print("ERROR: There are no enemies to fight!")
+        #ERROR
+        return print("You charge aggressively at the enemy, before realising that the room is completely empty. There are no enemies here...")
 
+    # loops through each enemy in room
     for enemy in gamestate.get_current_room()["enemies"]:
+        # if argument matches an enemy
         if words[1] == enemy["name"].lower():
             damamge = gamestate.player["atk"]
             if (not gamestate.player["equipped"] is None):
